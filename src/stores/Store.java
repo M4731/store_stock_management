@@ -48,4 +48,22 @@ public class Store
     public int getID() {
         return ID;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder out = new StringBuilder();
+        for (var i : products)
+        {
+            out.append(i.getDenumire()).append(" ");
+        }
+        return "ID=" + ID +
+                ", location='" + location + '\'' +
+                ", name='" + name + '\'' +
+                ", products= { " + out+ " }";
+    }
+
+    public void addProduct(Product product)
+    {
+        products.add(product);
+    }
 }

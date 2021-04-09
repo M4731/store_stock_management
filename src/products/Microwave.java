@@ -11,6 +11,8 @@ public class Microwave extends Product
     private int warranty;
     private String colour;
 
+    static final String className = "microwave";
+
     public Microwave(String denumire, double price, Category category, Distributor distributor, int weight, int power, int energy, int warranty, String colour) {
         super(denumire, price, category, distributor);
         this.weight = weight;

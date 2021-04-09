@@ -12,6 +12,8 @@ public class Vegetable extends Product
     private LocalDateTime expire;
     private String origin;
 
+    static final String className = "vegetable";
+
     public Vegetable(String denumire, double price, Category category, Distributor distributor, int quantity, String type, LocalDateTime expire, String origin) {
         super(denumire, price, category, distributor);
         this.quantity = quantity;
@@ -60,4 +62,5 @@ public class Vegetable extends Product
                 ", expire=" + expire +
                 ", origin='" + origin + '\'';
     }
+
 }

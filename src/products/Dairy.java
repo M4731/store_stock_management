@@ -12,6 +12,8 @@ public class Dairy extends Product
     private LocalDateTime expire;
     private double fat;
 
+    static final String className = "dairy";
+
     public Dairy(String denumire, double price, Category category, Distributor distributor, int quantity, String fromAnimal, LocalDateTime expire, double fat) {
         super(denumire, price, category, distributor);
         this.quantity = quantity;
