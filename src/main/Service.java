@@ -4,6 +4,7 @@ import categories.Category;
 import distributors.Distributor;
 import products.*;
 import stores.Store;
+import validations.Validation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -70,6 +71,10 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Category name : ");
         String categoryName = scanner.next();
+        if(!Validation.categoryNameValidation(categoryName))
+        {
+            return;
+        }
         Category category = new Category(categoryName);
         categories.add(category);
     }
@@ -92,6 +97,10 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Category Name : ");
         String categoryName = scanner.next();
+        if(!Validation.categoryNameCheck(categoryName, categories))
+        {
+            return;
+        }
         categories.removeIf(c -> c.getNume().equals(categoryName));
     }
 
@@ -102,6 +111,10 @@ public class Service
         String distributorName = scanner.next();
         System.out.print("Where is the distributor located? ");
         String distributorLocation = scanner.next();
+        if(!Validation.categoryNameValidation(distributorName) || !Validation.categoryNameValidation(distributorLocation))
+        {
+            return;
+        }
         Distributor distributor =  new Distributor(distributorName, distributorLocation);
         distributors.add(distributor);
     }
@@ -123,6 +136,10 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Distributor Name : ");
         String distributorName = scanner.next();
+        if(!Validation.distributorNameCheck(distributorName, distributors))
+        {
+            return;
+        }
         distributors.removeIf(c -> c.getNume().equals(distributorName));
     }
 
@@ -133,6 +150,10 @@ public class Service
         String storeName = scanner.next();
         System.out.print("Where is the store located? ");
         String storeLocation = scanner.next();
+        if(!Validation.categoryNameValidation(storeLocation) || !Validation.categoryNameValidation(storeName))
+        {
+            return;
+        }
         Store store = new Store(storeLocation, storeName);
         stores.add(store);
     }
@@ -155,100 +176,284 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Store Name : ");
         String storeName = scanner.next();
+        if(!Validation.storeNameCheck(storeName, stores))
+        {
+            return;
+        }
         stores.removeIf(c -> c.getName().equals(storeName));
     }
 
     public void addProductToStore()
     {
+        ArrayList<String> productTypes = new  ArrayList<String>();
+        productTypes.add("vegetable");
+        productTypes.add("diary");
+        productTypes.add("fridge");
+        productTypes.add("microwave");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Type of product : ");
         String productType = scanner.next();
+        if(!Validation.checkProductType(productType.toLowerCase(), productTypes))
+        {
+            return;
+        }
         productType = productType.toLowerCase();
+
         System.out.print("Product's name : ");
         String productName = scanner.next();
+        int productPrice;
+
         System.out.print("Product's price : ");
-        int productPrice = scanner.nextInt();
+        try{
+            productPrice = scanner.nextInt();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Invalid Number");
+            return;
+        }
+
         System.out.print("The category of the product : ");
         String productCategoryString = scanner.next();
+        if(!Validation.categoryNameCheck(productCategoryString, categories))
+        {
+            return;
+        }
         Category productCategory = categoryChoice(productCategoryString);
+
         System.out.print("The distributor of the product : ");
         String productDistributorString = scanner.next();
+        if(!Validation.distributorNameCheck(productDistributorString, distributors))
+        {
+            return;
+        }
         Distributor productDistributor = distributorChoice(productDistributorString);
+
+        int productStoreID;
         System.out.print("In which store do you want to sell the product? (ID)");
-        int productStoreID = scanner.nextInt();
+        try{
+            productStoreID = scanner.nextInt();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Invalid Number");
+            return;
+        }
+        if(!Validation.checkStoreID(productStoreID, stores))
+        {
+            return;
+        }
+
         switch(productType)
         {
             case "vegetable" ->
                     {
                         System.out.print("Product quantity : ");
-                        int productQuantity = scanner.nextInt();
+                        int productQuantity;
+                        try{
+                            productQuantity = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Vegetable type : ");
                         String vegetableType = scanner.next();
+
                         System.out.print("Expiring date (dd-mm-yyyy) : ");
                         String data = scanner.next();
-                        int day = Integer.parseInt(data.substring(0,2));
-                        int month = Integer.parseInt(data.substring(3, 5));
-                        int year = Integer.parseInt(data.substring(6, 10));
-                        int hr = 0;
-                        int min = 0;
-                        LocalDateTime productExpiration = LocalDateTime.of(year, month, day, hr, min);
+                        int day, month, year, hr, min;
+                        try{
+                            day = Integer.parseInt(data.substring(0,2));
+                            month = Integer.parseInt(data.substring(3, 5));
+                            year = Integer.parseInt(data.substring(6, 10));
+                            hr = 0;
+                            min = 0;
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+                        LocalDateTime productExpiration;
+                        try
+                        {
+                            productExpiration = LocalDateTime.of(year, month, day, hr, min);
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Date");
+                            return;
+                        }
+
                         System.out.print("Origin of the product : ");
                         String productOrigin = scanner.next();
 
                         Vegetable vegetable = new Vegetable(productName, productPrice, productCategory, productDistributor, productQuantity, vegetableType, productExpiration, productOrigin);
-                        stores.get(productStoreID).addProduct(vegetable);
+                        stores.get(productStoreID-1).addProduct(vegetable);
                     }
             case "dairy" ->
                     {
                         System.out.print("Product quantity : ");
-                        int productQuantity = scanner.nextInt();
+                        int productQuantity;
+                        try{
+                            productQuantity = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("What animal is it produced by? : ");
                         String productFromAnimal = scanner.next();
+
                         System.out.print("Expiring date (dd-mm-yyyy) : ");
                         String data = scanner.next();
-                        int day = Integer.parseInt(data.substring(0,2));
-                        int month = Integer.parseInt(data.substring(3, 5));
-                        int year = Integer.parseInt(data.substring(6, 10));
-                        int hr = 0;
-                        int min = 0;
-                        LocalDateTime productExpiration = LocalDateTime.of(year, month, day, hr, min);
+                        int day, month, year, hr, min;
+                        try{
+                            day = Integer.parseInt(data.substring(0,2));
+                            month = Integer.parseInt(data.substring(3, 5));
+                            year = Integer.parseInt(data.substring(6, 10));
+                            hr = 0;
+                            min = 0;
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+                        LocalDateTime productExpiration;
+                        try
+                        {
+                            productExpiration = LocalDateTime.of(year, month, day, hr, min);
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Date");
+                            return;
+                        }
+
                         System.out.print("Percent of animal fat : ");
-                        double productFat = scanner.nextDouble();
+                        double productFat;
+                        try{
+                            productFat = scanner.nextDouble();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
 
                         Dairy d = new Dairy(productName, productPrice, productCategory, productDistributor, productQuantity, productFromAnimal, productExpiration, productFat);
-                        stores.get(productStoreID).addProduct(d);
+                        stores.get(productStoreID-1).addProduct(d);
                     }
             case "fridge" ->
                     {
                         System.out.print("Product weight : ");
-                        int productWeight = scanner.nextInt();
+                        int productWeight;
+                        try{
+                            productWeight = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product volume : ");
-                        int productVolume = scanner.nextInt();
+                        int productVolume;
+                        try{
+                            productVolume = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product warranty (years) : ");
-                        int productWarranty = scanner.nextInt();
+                        int productWarranty;
+                        try{
+                            productWarranty = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product energy usage : ");
-                        int productEnergy = scanner.nextInt();
+                        int productEnergy;
+                        try{
+                            productEnergy = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product colour : ");
                         String productColour = scanner.next();
 
                         Fridge f = new Fridge(productName, productPrice, productCategory, productDistributor, productWeight, productVolume, productWarranty, productEnergy, productColour);
-                        stores.get(productStoreID).addProduct(f);
+                        stores.get(productStoreID-1).addProduct(f);
                     }
             case "microwave" ->
                     {
-                        System.out.print("Product weigh : ");
-                        int productWeight = scanner.nextInt();
+                        System.out.print("Product weight : ");
+                        int productWeight;
+                        try{
+                            productWeight = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product power : ");
-                        int productPower = scanner.nextInt();
+                        int productPower;
+                        try{
+                            productPower = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product energy usage : ");
-                        int productEnergy = scanner.nextInt();
+                        int productEnergy;
+                        try{
+                            productEnergy = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product warranty (years) : ");
-                        int productWarranty = scanner.nextInt();
+                        int productWarranty;
+                        try{
+                            productWarranty = scanner.nextInt();
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("Invalid Number");
+                            return;
+                        }
+
                         System.out.print("Product colour : ");
                         String productColour = scanner.next();
 
                         Microwave microwave = new Microwave(productName, productPrice, productCategory, productDistributor, productWeight, productPower, productEnergy, productWarranty, productColour);
-                        stores.get(productStoreID).addProduct(microwave);
+                        stores.get(productStoreID-1).addProduct(microwave);
                     }
 
         }
@@ -264,6 +469,10 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Name of the store : ");
         String storeName = scanner.next();
+        if(!Validation.storeNameCheck(storeName,stores))
+        {
+            return;
+        }
 
         Store s = new Store("", "");
         s.setName(storeName);
@@ -279,8 +488,16 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Name of the store : ");
         String storeName = scanner.next();
+        if(!Validation.storeNameCheck(storeName,stores))
+        {
+            return;
+        }
         System.out.print("Name of the product : ");
         String productName = scanner.next();
+        if(!Validation.checkProductOnStock(storeName, productName, stores))
+        {
+            return;
+        }
 
         for (Store i:stores)
         {
@@ -325,30 +542,39 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Name of the store : ");
         String storeName = scanner.next();
+        if(!Validation.storeNameCheck(storeName,stores))
+        {
+            return;
+        }
         System.out.print("Name of the product : ");
         String productName = scanner.next();
-        Boolean semafor = false;
+        if(!Validation.checkProductOnStock(storeName, productName, stores))
+        {
+            return;
+        }
 
-        for(Store i:stores)
-        {
-            if(i.getName().equals(storeName))
-            {
-                for(Product p:i.getProducts())
-                {
-                    if(p.getDenumire().equals(productName))
-                    {
-                        System.out.println("The product is on stock!");
-                        semafor = true;
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-        if(!semafor)
-        {
-            System.out.println("The product is not on stock :( .");
-        }
+//        Boolean semafor = false;
+//
+//        for(Store i:stores)
+//        {
+//            if(i.getName().equals(storeName))
+//            {
+//                for(Product p:i.getProducts())
+//                {
+//                    if(p.getDenumire().equals(productName))
+//                    {
+//                        System.out.println("The product is on stock!");
+//                        semafor = true;
+//                        break;
+//                    }
+//                }
+//                break;
+//            }
+//        }
+//        if(!semafor)
+//        {
+        System.out.println("The product on stock :( !");
+//        }
     }
 
 
