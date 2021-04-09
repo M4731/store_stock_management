@@ -27,7 +27,7 @@ public class Main
         Store s = new Store("Romania", "LIDL");
 
         Vegetable tomato = new Vegetable("tomato", 5, food, dm, 1, "cherry", LocalDateTime.now(), "Romania");
-        Dairy d = new Dairy("dada", 5, food, dm, 1, "sex anal", LocalDateTime.now(), 2.25);
+        Dairy d = new Dairy("dada", 5, food, dm, 1, "scuzenamvrut", LocalDateTime.now(), 2.25);
 //        System.out.println(tomato.toString());
 //        System.out.println(food.toString());
 //        System.out.println(dm.toString());
@@ -57,6 +57,8 @@ public class Main
             System.out.println("10 - add product to store");
             System.out.println("11 - show all the products from a store");
             System.out.println("12 - remove a product from a store");
+            System.out.println("13 - the store with the most products on stock");
+            System.out.println("14 - check if a product is on stock at a store");
             System.out.println("exit - exit menu");
             menu_choice = scanner.next();
             switch (menu_choice)
@@ -73,6 +75,8 @@ public class Main
                 case "10" -> service.addProductToStore();
                 case "11" -> service.showAllProductsFromaStore();
                 case "12" -> service.deleteFromStore();
+                case "13" -> service.storeWithTheMostProductsOnStock();
+                case "14" -> service.checkItem();
             }
 
         }while(!menu_choice.equals("exit"));

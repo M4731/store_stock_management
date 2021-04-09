@@ -299,5 +299,57 @@ public class Service
         }
     }
 
+    public void storeWithTheMostProductsOnStock()
+    {
+        int start = 0;
+        String storeName = "";
+        for (Store s:stores)
+        {
+            if(s.getProducts().size() > start)
+            {
+                start = s.getProducts().size();
+                storeName = s.getName();
+            }
+        }
+
+        Store s = new Store("", "");
+        s.setName(storeName);
+        var index = Collections.binarySearch(stores, s);
+        Store store = stores.get(index);
+
+        System.out.println(store);
+    }
+
+    public void checkItem()
+    {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Name of the store : ");
+        String storeName = scanner.next();
+        System.out.print("Name of the product : ");
+        String productName = scanner.next();
+        Boolean semafor = false;
+
+        for(Store i:stores)
+        {
+            if(i.getName().equals(storeName))
+            {
+                for(Product p:i.getProducts())
+                {
+                    if(p.getDenumire().equals(productName))
+                    {
+                        System.out.println("The product is on stock!");
+                        semafor = true;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        if(!semafor)
+        {
+            System.out.println("The product is not on stock :( .");
+        }
+    }
+
 
 }
