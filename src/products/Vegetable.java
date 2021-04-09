@@ -3,7 +3,11 @@ package products;
 import categories.Category;
 import distributors.Distributor;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.SimpleTimeZone;
 
 public class Vegetable extends Product
 {
@@ -11,8 +15,6 @@ public class Vegetable extends Product
     private String type;
     private LocalDateTime expire;
     private String origin;
-
-    static final String className = "vegetable";
 
     public Vegetable(String denumire, double price, Category category, Distributor distributor, int quantity, String type, LocalDateTime expire, String origin) {
         super(denumire, price, category, distributor);
@@ -59,7 +61,7 @@ public class Vegetable extends Product
         return super.toString()+
                 "quantity=" + quantity +
                 ", type='" + type + '\'' +
-                ", expire=" + expire +
+                ", expire=" + expire.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
                 ", origin='" + origin + '\'';
     }
 

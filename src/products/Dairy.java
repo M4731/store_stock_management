@@ -4,6 +4,7 @@ import categories.Category;
 import distributors.Distributor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Dairy extends Product
 {
@@ -11,8 +12,6 @@ public class Dairy extends Product
     private String fromAnimal;
     private LocalDateTime expire;
     private double fat;
-
-    static final String className = "dairy";
 
     public Dairy(String denumire, double price, Category category, Distributor distributor, int quantity, String fromAnimal, LocalDateTime expire, double fat) {
         super(denumire, price, category, distributor);
@@ -52,5 +51,14 @@ public class Dairy extends Product
 
     public void setFat(double fat) {
         this.fat = fat;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                "quantity=" + quantity +
+                ", fromAnimal='" + fromAnimal + '\'' +
+                ", expire=" + expire.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
+                ", fat=" + fat;
     }
 }

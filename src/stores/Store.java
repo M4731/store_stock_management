@@ -4,12 +4,12 @@ import products.Product;
 
 import java.util.*;
 
-public class Store
+public class Store implements Comparable<Store>
 {
     private int ID;
     private String location;
     private String name;
-    private Set<Product> products = new HashSet<>();
+    private Set<Product> products = new TreeSet<>();
 
     static int increment = 0;
 
@@ -66,4 +66,28 @@ public class Store
     {
         products.add(product);
     }
+
+    @Override
+    public int compareTo(Store o) {
+        return(this.name.compareTo(o.name));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Store store = (Store) o;
+        return ID == store.ID && location.equals(store.location) && name.equals(store.name) && products.equals(store.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, location, name, products);
+    }
+
+    public void removeProduct(Product product)
+    {
+        this.products.remove(product);
+    }
 }
+

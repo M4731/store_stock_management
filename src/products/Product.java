@@ -2,8 +2,9 @@ package products;
 
 import categories.Category;
 import distributors.Distributor;
+import stores.Store;
 
-public abstract class Product
+public abstract class Product implements Comparable<Product>
 {
     protected int ID;
     protected String denumire;
@@ -81,5 +82,10 @@ public abstract class Product
                 ", discount=" + discount +
                 ", category=" + category.getNume() +
                 ", distributor=" + distributor.getNume() +", ";
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        return Integer.compare(this.ID, o.ID);
     }
 }

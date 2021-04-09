@@ -2,14 +2,12 @@ package main;
 
 import categories.Category;
 import distributors.Distributor;
-import products.Dairy;
-import products.Fridge;
-import products.Microwave;
-import products.Vegetable;
+import products.*;
 import stores.Store;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -89,6 +87,14 @@ public class Service
         }
     }
 
+    public void deleteCategory()
+    {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Category Name : ");
+        String categoryName = scanner.next();
+        categories.removeIf(c -> c.getNume().equals(categoryName));
+    }
+
     public void addDistributor()
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
@@ -110,6 +116,14 @@ public class Service
         {
             System.out.println(i.toString());
         }
+    }
+
+    public void deleteDistributor()
+    {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Distributor Name : ");
+        String distributorName = scanner.next();
+        distributors.removeIf(c -> c.getNume().equals(distributorName));
     }
 
     public void addStore()
@@ -134,6 +148,14 @@ public class Service
         {
             System.out.println(i.toString());
         }
+    }
+
+    public void deleteStore()
+    {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Store Name : ");
+        String storeName = scanner.next();
+        stores.removeIf(c -> c.getName().equals(storeName));
     }
 
     public void addProductToStore()
@@ -230,10 +252,52 @@ public class Service
                     }
 
         }
-
     }
 
-    //TODO BINARY SEARCH
+    public void addProductToStoreFromCode(Product p, int store)
+    {
+        stores.get(store).addProduct(p);
+    }
+
+    public void showAllProductsFromaStore()
+    {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Name of the store : ");
+        String storeName = scanner.next();
+
+        Store s = new Store("", "");
+        s.setName(storeName);
+        var index = Collections.binarySearch(stores, s);
+        Store store = stores.get(index);
+
+        for(var p:store.getProducts())
+            System.out.println(p);
+    }
+
+    public void deleteFromStore()
+    {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Name of the store : ");
+        String storeName = scanner.next();
+        System.out.print("Name of the product : ");
+        String productName = scanner.next();
+
+        for (Store i:stores)
+        {
+            if(i.getName().equals(storeName))
+            {
+                for(Product p:i.getProducts())
+                {
+                    if(p.getDenumire().equals(productName))
+                    {
+                        i.removeProduct(p);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
 
 
 }

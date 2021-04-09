@@ -11,8 +11,6 @@ public class Fridge extends Product
     private int warranty;
     private String colour;
 
-    static final String className = "fridge";
-
     public Fridge(String denumire, double price, Category category, Distributor distributor, int weight, int volume, int energy, int warranty, String colour) {
         super(denumire, price, category, distributor);
         this.weight = weight;
