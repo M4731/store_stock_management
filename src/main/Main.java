@@ -8,7 +8,6 @@ import products.Vegetable;
 import stores.Store;
 
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.Scanner;
 
 public class Main
@@ -17,31 +16,37 @@ public class Main
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
 
-        Category food = new Category("food");
-        System.out.println(food);
-
-
-        Distributor dm = new Distributor("dm", "Romania");
-        System.out.println(dm);
-
-        Store s = new Store("Romania", "LIDL");
-
-        Vegetable tomato = new Vegetable("tomato", 5, food, dm, 1, "cherry", LocalDateTime.now(), "Romania");
-        Dairy d = new Dairy("dada", 5, food, dm, 1, "scuzenamvrut", LocalDateTime.now(), 2.25);
-//        System.out.println(tomato.toString());
-//        System.out.println(food.toString());
-//        System.out.println(dm.toString());
+//        Distributor dm = new Distributor("dm", "Romania");
+//        System.out.println(dm);
+//
+//        Store s = new Store("Romania", "LIDL");
+//
+//        Vegetable tomato = new Vegetable("tomato", 5, food, dm, 1, "cherry", LocalDateTime.now(), "Romania");
+//        Dairy d = new Dairy("dada", 5, food, dm, 1, "cow", LocalDateTime.now(), 2.25);
 
         Service service = Service.getInstance();
+
+        ReadService RS = ReadService.getInstance();
+        RS.readCategories();
+        RS.readDistributors();
+        RS.readStores();
+        RS.readDairies();
+        RS.readVegetables();
+
         String menu_choice;
 
-        service.addStoreFromCode(s);
-        service.addDistributorFromCode(dm);
-        service.addCategoryFromCode(food);
+//        service.addStoreFromCode(s);
+//        service.addDistributorFromCode(dm);
+//        service.addCategoryFromCode(food);
+//
+//        service.addProductToStoreFromCode(tomato, 0);
+//        service.addProductToStoreFromCode(d, 0);
 
-        service.addProductToStoreFromCode(tomato, 0);
-        service.addProductToStoreFromCode(d, 0);
-
+        WriteService WS = WriteService.getInstance();
+        WS.writeCategories();
+        WS.writeDistributors();
+        WS.writeStores();
+        WS.writeProducts();
 
         do
         {

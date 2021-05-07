@@ -1,0 +1,10 @@
+---
+CHEESE,ID=1, name='cheese', price=20.0, discount=0.0, category=Food, distributor=Hochland, quantity=400, fromAnimal='cow', expire=05 June 2021, fat=30.0
+TOMATO,ID=3, name='tomato', price=6.5, discount=0.0, category=Food, distributor=Cradle, quantity=1000, type='cherry', expire=20 May 2021, origin='Greece'
+TOMATO,ID=4, name='tomato', price=7.65, discount=0.0, category=Food, distributor=Cradle, quantity=1000, type='pink', expire=20 May 2021, origin='Turkey'
+POTATO,ID=6, name='potato', price=1.2, discount=0.0, category=Food, distributor=Cradle, quantity=1000, type='white', expire=20 June 2021, origin='Romania'
+CARROT,ID=8, name='carrot', price=2.0, discount=0.0, category=Food, distributor=Cradle, quantity=1000, type='baby', expire=21 June 2021, origin='Romania'
+ONION,ID=9, name='onion', price=1.0, discount=0.0, category=Food, distributor=Cradle, quantity=1000, type='white', expire=07 June 2021, origin='Spain'
+MILK,ID=2, name='milk', price=5.0, discount=0.0, category=Food, distributor=dm, quantity=500, fromAnimal='goat', expire=05 June 2021, fat=3.5
+TOMATO,ID=5, name='tomato', price=6.5, discount=0.0, category=Food, distributor=Cradle, quantity=1000, type='cherry', expire=20 May 2021, origin='Greece'
+POTATO,ID=7, name='potato', price=1.5, discount=0.0, category=Food, distributor=dw, quantity=1000, type='new', expire=20 June 2021, origin='Greece'

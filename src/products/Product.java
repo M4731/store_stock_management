@@ -77,7 +77,7 @@ public abstract class Product implements Comparable<Product>
     @Override
     public String toString() {
         return "ID=" + ID +
-                ", denumire='" + denumire + '\'' +
+                ", name='" + denumire + '\'' +
                 ", price=" + price +
                 ", discount=" + discount +
                 ", category=" + category.getNume() +

@@ -185,7 +185,7 @@ public class Service
 
     public void addProductToStore()
     {
-        ArrayList<String> productTypes = new  ArrayList<String>();
+        ArrayList<String> productTypes = new  ArrayList<>();
         productTypes.add("vegetable");
         productTypes.add("diary");
         productTypes.add("fridge");
@@ -474,12 +474,20 @@ public class Service
             return;
         }
 
-        Store s = new Store("", "");
-        s.setName(storeName);
-        var index = Collections.binarySearch(stores, s);
-        Store store = stores.get(index);
+        Store st = new Store("","");
+        for(var i : stores)
+        {
+            if(i.getName().equals(storeName))
+            {
+                st = i;
+            }
+        }
+//        Store s = new Store("", "");
+//        s.setName(storeName);
+//        var index = Collections.binarySearch(stores, s);
+//        Store store = stores.get(index);
 
-        for(var p:store.getProducts())
+        for(var p:st.getProducts())
             System.out.println(p);
     }
 
