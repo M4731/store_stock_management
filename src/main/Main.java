@@ -48,6 +48,8 @@ public class Main
         WS.writeStores();
         WS.writeProducts();
 
+        AuditService AS = AuditService.getInstance();
+
         do
         {
             System.out.println("Menu\n1 - add category");

@@ -68,6 +68,9 @@ public class Service
 
     public void addCategory()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("addCategory");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Category name : ");
         String categoryName = scanner.next();
@@ -86,6 +89,9 @@ public class Service
 
     public void showCategories()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("showCategories");
+
         for(Category i:categories)
         {
             System.out.println(i.toString());
@@ -94,6 +100,9 @@ public class Service
 
     public void deleteCategory()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("deleteCategory");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Category Name : ");
         String categoryName = scanner.next();
@@ -106,6 +115,9 @@ public class Service
 
     public void addDistributor()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("addDistributor");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Distributor's name : ");
         String distributorName = scanner.next();
@@ -118,6 +130,7 @@ public class Service
         Distributor distributor =  new Distributor(distributorName, distributorLocation);
         distributors.add(distributor);
     }
+
     public void addDistributorFromCode(Distributor d)
     {
         distributors.add(d);
@@ -125,6 +138,9 @@ public class Service
 
     public void showDistributors()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("showDistributors");
+
         for(Distributor i:distributors)
         {
             System.out.println(i.toString());
@@ -133,6 +149,9 @@ public class Service
 
     public void deleteDistributor()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("deleteDistributor");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Distributor Name : ");
         String distributorName = scanner.next();
@@ -145,6 +164,9 @@ public class Service
 
     public void addStore()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("addStore");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Store's name : ");
         String storeName = scanner.next();
@@ -165,6 +187,9 @@ public class Service
 
     public void showStores()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("showStores");
+
         for(Store i:stores)
         {
             System.out.println(i.toString());
@@ -173,6 +198,9 @@ public class Service
 
     public void deleteStore()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("deleteStore");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Store Name : ");
         String storeName = scanner.next();
@@ -185,6 +213,9 @@ public class Service
 
     public void addProductToStore()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("addProductToStore");
+
         ArrayList<String> productTypes = new  ArrayList<>();
         productTypes.add("vegetable");
         productTypes.add("diary");
@@ -466,6 +497,9 @@ public class Service
 
     public void showAllProductsFromaStore()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("showAllProductsFromaStore");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Name of the store : ");
         String storeName = scanner.next();
@@ -493,6 +527,9 @@ public class Service
 
     public void deleteFromStore()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("deleteFromStore");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Name of the store : ");
         String storeName = scanner.next();
@@ -526,6 +563,9 @@ public class Service
 
     public void storeWithTheMostProductsOnStock()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("storeWithTheMostProductsOnStock");
+
         int start = 0;
         String storeName = "";
         for (Store s:stores)
@@ -537,16 +577,28 @@ public class Service
             }
         }
 
-        Store s = new Store("", "");
-        s.setName(storeName);
-        var index = Collections.binarySearch(stores, s);
-        Store store = stores.get(index);
+        Store st = new Store("","");
+        for(var i : stores)
+        {
+            if(i.getName().equals(storeName))
+            {
+                st = i;
+            }
+        }
 
-        System.out.println(store);
+//        Store s = new Store("", "");
+//        s.setName(storeName);
+//        var index = Collections.binarySearch(stores, s);
+//        Store store = stores.get(index);
+
+        System.out.println(st);
     }
 
     public void checkItem()
     {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("checkItem");
+
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Name of the store : ");
         String storeName = scanner.next();
