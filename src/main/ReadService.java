@@ -3,6 +3,7 @@
 package main;
 
 import categories.Category;
+import database.Repositories;
 import distributors.Distributor;
 import products.Dairy;
 import products.Vegetable;
@@ -14,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class ReadService {
     private static ReadService instance = null;
@@ -30,14 +32,20 @@ public class ReadService {
 
     public void readCategories()
     {
+        Repositories repo = new Repositories();
         Service service = Service.getInstance();
         try
         {
+            ArrayList<Category> categoriesDatabase = repo.findAll();
             String row;
             BufferedReader csvReader = new BufferedReader(new FileReader("./InOut/Input/categories.csv"));
             while ((row = csvReader.readLine()) != null) {
                 Category c = new Category(row);
                 service.addCategoryFromCode(c);
+                if(categoriesDatabase.isEmpty())
+                {
+                    repo.insertCategory(c);
+                }
             }
             csvReader.close();
         }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Category
 {
+
     private int ID;
     private String nume;
     private ArrayList<Product> productList = new ArrayList<>();
@@ -16,6 +17,10 @@ public class Category
 
         increment ++;
         this.ID = increment;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getNume() {

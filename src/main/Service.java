@@ -1,6 +1,7 @@
 package main;
 
 import categories.Category;
+import database.Repositories;
 import distributors.Distributor;
 import products.*;
 import stores.Store;
@@ -17,6 +18,7 @@ public class Service
     private ArrayList<Store> stores = new ArrayList<>();
     private ArrayList<Category> categories = new ArrayList<>();
     private ArrayList<Distributor> distributors = new ArrayList<>();
+    private Repositories repo = new Repositories();
 
     private static Service instance = null;
     private Service(){}
@@ -80,6 +82,38 @@ public class Service
         }
         Category category = new Category(categoryName);
         categories.add(category);
+        repo.insertCategory(category);
+    }
+
+    public void editCategory()
+    {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("addCategory");
+
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Category name : ");
+        String categoryName = scanner.next();
+        if(!Validation.categoryNameValidation(categoryName))
+        {
+            return;
+        }
+        System.out.print("New category name : ");
+        String newCategoryName = scanner.next();
+        if(!Validation.categoryNameValidation(newCategoryName))
+        {
+            return;
+        }
+        ArrayList<Category> categoriesDatabase = repo.findAll();
+        for(var i:categoriesDatabase)
+        {
+            if(i.getNume().equals(categoryName))
+            {
+                i.setNume(newCategoryName);
+                repo.updateCategory(i);
+
+                break;
+            }
+        }
     }
 
     public void addCategoryFromCode(Category c)
@@ -91,11 +125,13 @@ public class Service
     {
         AuditService AS = AuditService.getInstance();
         AS.auditWrite("showCategories");
+        ArrayList<Category> categoriesDatabase = repo.findAll();
 
-        for(Category i:categories)
+        for(Category i:categoriesDatabase)
         {
             System.out.println(i.toString());
         }
+
     }
 
     public void deleteCategory()
@@ -110,6 +146,7 @@ public class Service
         {
             return;
         }
+        repo.deleteCategory(categoryName);
         categories.removeIf(c -> c.getNume().equals(categoryName));
     }
 

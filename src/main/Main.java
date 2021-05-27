@@ -2,6 +2,7 @@ package main;
 
 
 import categories.Category;
+import database.Setup;
 import distributors.Distributor;
 import products.Dairy;
 import products.Vegetable;
@@ -15,6 +16,9 @@ public class Main
     public static void main(String[] args)
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+
+        Setup setup = new Setup();
+        setup.setup();
 
 //        Distributor dm = new Distributor("dm", "Romania");
 //        System.out.println(dm);
@@ -66,6 +70,7 @@ public class Main
             System.out.println("12 - remove a product from a store");
             System.out.println("13 - the store with the most products on stock");
             System.out.println("14 - check if a product is on stock at a store");
+            System.out.println("15 - edit category");
             System.out.println("exit - exit menu");
             menu_choice = scanner.next();
             switch (menu_choice)
@@ -84,6 +89,7 @@ public class Main
                 case "12" -> service.deleteFromStore();
                 case "13" -> service.storeWithTheMostProductsOnStock();
                 case "14" -> service.checkItem();
+                case "15" -> service.editCategory();
             }
 
         }while(!menu_choice.equals("exit"));
