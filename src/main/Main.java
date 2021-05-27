@@ -71,6 +71,8 @@ public class Main
             System.out.println("13 - the store with the most products on stock");
             System.out.println("14 - check if a product is on stock at a store");
             System.out.println("15 - edit category");
+            System.out.println("16 - edit distributor");
+            System.out.println("17 - edit store");
             System.out.println("exit - exit menu");
             menu_choice = scanner.next();
             switch (menu_choice)
@@ -90,6 +92,8 @@ public class Main
                 case "13" -> service.storeWithTheMostProductsOnStock();
                 case "14" -> service.checkItem();
                 case "15" -> service.editCategory();
+                case "16" -> service.editDistributor();
+                case "17" -> service.editStore();
             }
 
         }while(!menu_choice.equals("exit"));

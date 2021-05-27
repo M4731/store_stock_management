@@ -21,6 +21,10 @@ public class Store implements Comparable<Store>
         this.ID = increment;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public String getLocation() {
         return location;
     }

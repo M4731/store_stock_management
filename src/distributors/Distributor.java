@@ -21,6 +21,10 @@ public class Distributor
         this.ID = increment;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public String getNume() {
         return nume;
     }

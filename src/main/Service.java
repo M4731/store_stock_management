@@ -88,7 +88,7 @@ public class Service
     public void editCategory()
     {
         AuditService AS = AuditService.getInstance();
-        AS.auditWrite("addCategory");
+        AS.auditWrite("editCategory");
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Category name : ");
@@ -127,7 +127,7 @@ public class Service
         AS.auditWrite("showCategories");
         ArrayList<Category> categoriesDatabase = repo.findAll();
 
-        for(Category i:categoriesDatabase)
+        for(Category i:repo.findAll())
         {
             System.out.println(i.toString());
         }
@@ -166,6 +166,7 @@ public class Service
         }
         Distributor distributor =  new Distributor(distributorName, distributorLocation);
         distributors.add(distributor);
+        repo.insertDistributor(distributor);
     }
 
     public void addDistributorFromCode(Distributor d)
@@ -178,7 +179,7 @@ public class Service
         AuditService AS = AuditService.getInstance();
         AS.auditWrite("showDistributors");
 
-        for(Distributor i:distributors)
+        for(Distributor i: repo.findAllDistributors())
         {
             System.out.println(i.toString());
         }
@@ -192,11 +193,47 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Distributor Name : ");
         String distributorName = scanner.next();
-        if(!Validation.distributorNameCheck(distributorName, distributors))
+//        if(!Validation.distributorNameCheck(distributorName, distributors))
+//        {
+//            return;
+//        }
+
+        repo.deleteDistributor(distributorName);
+        distributors.removeIf(c -> c.getNume().equals(distributorName));
+    }
+
+    public void editDistributor()
+    {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("editDistributor");
+
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Distributor name : ");
+        String distributorName = scanner.next();
+        if(!Validation.categoryNameValidation(distributorName))
         {
             return;
         }
-        distributors.removeIf(c -> c.getNume().equals(distributorName));
+        System.out.print("New distributor name : ");
+        String newDistributorName = scanner.next();
+        System.out.print("New distributor location : ");
+        String newDistributorLocation = scanner.next();
+        if(!Validation.categoryNameValidation(newDistributorName))
+        {
+            return;
+        }
+        ArrayList<Distributor> distributorsDatabase = repo.findAllDistributors();
+        for(var i:distributorsDatabase)
+        {
+            if(i.getNume().equals(distributorName))
+            {
+                i.setNume(newDistributorName);
+                i.setLocation(newDistributorLocation);
+                repo.updateDistributor(i);
+
+                break;
+            }
+        }
     }
 
     public void addStore()
@@ -215,6 +252,7 @@ public class Service
         }
         Store store = new Store(storeLocation, storeName);
         stores.add(store);
+        repo.insertStore(store);
     }
 
     public void addStoreFromCode(Store s)
@@ -227,7 +265,7 @@ public class Service
         AuditService AS = AuditService.getInstance();
         AS.auditWrite("showStores");
 
-        for(Store i:stores)
+        for(Store i:repo.findAllStores())
         {
             System.out.println(i.toString());
         }
@@ -241,11 +279,46 @@ public class Service
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.print("Store Name : ");
         String storeName = scanner.next();
-        if(!Validation.storeNameCheck(storeName, stores))
+//        if(!Validation.storeNameCheck(storeName, stores))
+//        {
+//            return;
+//        }
+        repo.deleteStore(storeName);
+        stores.removeIf(c -> c.getName().equals(storeName));
+    }
+
+    public void editStore()
+    {
+        AuditService AS = AuditService.getInstance();
+        AS.auditWrite("editStore");
+
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.print("Store name : ");
+        String storeName = scanner.next();
+        if(!Validation.categoryNameValidation(storeName))
         {
             return;
         }
-        stores.removeIf(c -> c.getName().equals(storeName));
+        System.out.print("New store name : ");
+        String newStoreName = scanner.next();
+        System.out.print("New store location : ");
+        String newStoreLocation = scanner.next();
+        if(!Validation.categoryNameValidation(newStoreName))
+        {
+            return;
+        }
+        ArrayList<Store> storesDatabase = repo.findAllStores();
+        for(var i:storesDatabase)
+        {
+            if(i.getName().equals(storeName))
+            {
+                i.setName(newStoreName);
+                i.setLocation(newStoreLocation);
+                repo.updateStore(i);
+
+                break;
+            }
+        }
     }
 
     public void addProductToStore()

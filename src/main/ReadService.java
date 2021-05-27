@@ -56,15 +56,21 @@ public class ReadService {
 
     public void readDistributors()
     {
+        Repositories repo =  new Repositories();
         Service service = Service.getInstance();
         try
         {
+            ArrayList<Distributor> distributorsDatabase = repo.findAllDistributors();
             String row;
             BufferedReader csvReader = new BufferedReader(new FileReader("./InOut/Input/distributors.csv"));
             while ((row = csvReader.readLine()) != null) {
                 String[] data = row.split(",");
                 Distributor d = new Distributor(data[0],data[1]);
                 service.addDistributorFromCode(d);
+                if (distributorsDatabase.isEmpty())
+                {
+                    repo.insertDistributor(d);
+                }
             }
             csvReader.close();
         }
@@ -76,14 +82,20 @@ public class ReadService {
     public void readStores()
     {
         Service service = Service.getInstance();
+        Repositories repo =  new Repositories();
         try
         {
+            ArrayList<Store> storesDatabase = repo.findAllStores();
             String row;
             BufferedReader csvReader = new BufferedReader(new FileReader("./InOut/Input/stores.csv"));
             while ((row = csvReader.readLine()) != null) {
                 String[] data = row.split(",");
                 Store s = new Store(data[0],data[1]);
                 service.addStoreFromCode(s);
+                if(storesDatabase.isEmpty())
+                {
+                    repo.insertStore(s);
+                }
             }
             csvReader.close();
         }
