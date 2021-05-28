@@ -77,11 +77,12 @@ public class Setup {
                 "    distributorID INT,\n" +
                 "    quantity INT,\n" +
                 "    type VARCHAR(255),\n" +
-                "    expire DATETIME,\n" +
-                "    origin VARCHAR(255),\n" +
-                " FOREIGN KEY (categoryID) REFERENCES categories(id) ON DELETE CASCADE,\n"+
-                " FOREIGN KEY (distributorID) REFERENCES distributors(id) ON DELETE CASCADE\n"+
+                "    expire VARCHAR(255),\n" +
+                "    origin VARCHAR(255)\n" +
                 ")";
+
+//        " FOREIGN KEY (categoryID) REFERENCES categories(id) ON DELETE CASCADE,\n"+
+//        " FOREIGN KEY (distributorID) REFERENCES distributors(id) ON DELETE CASCADE\n"+
 
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
             Statement statement = connection.createStatement();

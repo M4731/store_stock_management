@@ -73,6 +73,7 @@ public class Main
             System.out.println("15 - edit category");
             System.out.println("16 - edit distributor");
             System.out.println("17 - edit store");
+            System.out.println("18 - show vegetables");
             System.out.println("exit - exit menu");
             menu_choice = scanner.next();
             switch (menu_choice)
@@ -94,6 +95,7 @@ public class Main
                 case "15" -> service.editCategory();
                 case "16" -> service.editDistributor();
                 case "17" -> service.editStore();
+                case "18" -> service.showVegetables();
             }
 
         }while(!menu_choice.equals("exit"));

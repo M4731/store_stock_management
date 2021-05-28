@@ -30,6 +30,10 @@ public abstract class Product implements Comparable<Product>
         this.ID = increment;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public String getDenumire() {
         return denumire;
     }

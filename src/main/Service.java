@@ -362,6 +362,7 @@ public class Service
             return;
         }
         Category productCategory = categoryChoice(productCategoryString);
+        System.out.println(productCategory.toString());
 
         System.out.print("The distributor of the product : ");
         String productDistributorString = scanner.next();
@@ -381,10 +382,10 @@ public class Service
             System.out.println("Invalid Number");
             return;
         }
-        if(!Validation.checkStoreID(productStoreID, stores))
-        {
-            return;
-        }
+//        if(!Validation.checkStoreID(productStoreID, stores))
+//        {
+//            return;
+//        }
 
         switch(productType)
         {
@@ -435,6 +436,7 @@ public class Service
 
                         Vegetable vegetable = new Vegetable(productName, productPrice, productCategory, productDistributor, productQuantity, vegetableType, productExpiration, productOrigin);
                         stores.get(productStoreID-1).addProduct(vegetable);
+                        repo.insertVegetable(vegetable);
                     }
             case "dairy" ->
                     {
@@ -747,5 +749,12 @@ public class Service
 //        }
     }
 
+    public void showVegetables()
+    {
+        for(var x:repo.findAllVegetables())
+        {
+            System.out.println(x.toString());
+        }
+    }
 
 }

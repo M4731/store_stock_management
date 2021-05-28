@@ -143,6 +143,9 @@ public class ReadService {
     public void readVegetables()
     {
         Service service = Service.getInstance();
+        Repositories repo = new Repositories();
+        ArrayList<Vegetable> vegs = repo.findAllVegetables();
+//        System.out.println(vegs.toString());
         try
         {
             String row;
@@ -166,6 +169,10 @@ public class ReadService {
                         Integer.parseInt(data[4]),data[5],productExpiration,data[7]);
 
                 service.addProductToStoreFromCode(v, Integer.parseInt(data[8]));
+                if(vegs.isEmpty())
+                {
+                    repo.insertVegetable(v);
+                }
             }
             csvReader.close();
         }

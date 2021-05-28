@@ -2,12 +2,17 @@ package database;
 
 import categories.Category;
 import distributors.Distributor;
+import products.Vegetable;
 import stores.Store;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Repositories {
+    private ArrayList<Category> categories = findAll();
+    private ArrayList<Distributor> distributors = findAllDistributors();
+
     public Category insertCategory(Category category)
     {
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
@@ -246,6 +251,97 @@ public class Repositories {
 
         } catch (SQLException exception) {
             throw new RuntimeException("Something went wrong while tying to updated the store with id: " + store+exception);
+        }
+    }
+
+    public Vegetable insertVegetable(Vegetable vegetable)
+    {
+        try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
+            String query = "INSERT into vegetables(name,price,categoryID,distributorID,quantity,type,expire,origin) VALUES(?,?,?,?,?,?,?,?)";
+
+//            String expireData = vegetable.getExpire().toString();
+//            System.out.println(expireData);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, vegetable.getDenumire());
+            preparedStatement.setDouble(2, vegetable.getPrice());
+            preparedStatement.setInt(3, vegetable.getCategory().getID());
+            preparedStatement.setInt(4, vegetable.getDistributor().getID());
+            preparedStatement.setInt(5, vegetable.getQuantity());
+            preparedStatement.setString(6, vegetable.getType());
+            preparedStatement.setString(7, vegetable.getExpire().toString());
+            preparedStatement.setString(8, vegetable.getOrigin());
+
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                vegetable.setID(resultSet.getInt(1));
+            }
+            resultSet.close();
+            return vegetable;
+
+        } catch (SQLException exception) {
+            throw new RuntimeException("Something went wrong while saving the vegetable: " + vegetable + exception);
+        }
+    }
+
+    public ArrayList<Vegetable> findAllVegetables()
+    {
+        ArrayList<Vegetable> vegetables = new ArrayList<>();
+        try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
+            String query = "SELECT * FROM vegetables";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                Category localCategory = null;
+                int categoryID = resultSet.getInt("categoryID");
+//                System.out.println(categoryID);
+//                System.out.println(categories.toString());
+                for(var x:categories)
+                {
+                    if(x.getID() == categoryID)
+                    {
+                        localCategory = x;
+                        break;
+                    }
+                }
+
+                Distributor localDistributor = null;
+                int distributorID = resultSet.getInt("distributorID");
+                for(var x:distributors)
+                {
+                    if(x.getID() == distributorID)
+                    {
+                        localDistributor = x;
+                        break;
+                    }
+                }
+
+//                System.out.println(resultSet.getString("expire"));
+                String data = resultSet.getString("expire");
+                int day, month, year, hr, min;
+                day = Integer.parseInt(data.substring(0,4));
+                month = Integer.parseInt(data.substring(5, 7));
+                year = Integer.parseInt(data.substring(8, 10));
+                hr = 0;
+                min = 0;
+                LocalDateTime localExpire;
+                localExpire = LocalDateTime.of(day, month, year, hr, min);
+//                System.out.println(localExpire);
+
+                Vegetable vegetable = new Vegetable(resultSet.getString("name"), resultSet.getDouble("price"), localCategory, localDistributor,
+                        resultSet.getInt("quantity"), resultSet.getString("type"), localExpire, resultSet.getString("origin"));
+                vegetable.setID(resultSet.getInt("id"));
+                vegetables.add(vegetable);
+            }
+
+            resultSet.close();
+            return vegetables;
+
+        } catch (SQLException exception) {
+            throw new RuntimeException("Something went wrong while tying to get all vegetables. "+exception);
         }
     }
 }

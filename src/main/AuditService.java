@@ -36,7 +36,8 @@ public class AuditService {
         Service service = Service.getInstance();
         try {
             FileWriter csvWriter = new FileWriter("./InOut/Output/audit.csv",true);
-            csvWriter.write(mesaj+","+ LocalDateTime.now()+"\n");
+            String threadAction = Thread.currentThread().getName();
+            csvWriter.write(mesaj+","+threadAction+","+ LocalDateTime.now()+"\n");
 
             csvWriter.close();
         }
